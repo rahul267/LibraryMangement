@@ -14,6 +14,30 @@ namespace LibraryApp.Tests
             var result = _libraryManager.AddBook(book);
             Assert.True(result);
         }
-        // Add at least 19 more tests following this pattern
+        [Fact]
+public void RemoveBook_ReturnsTrue_WhenExistingBookRemoved()
+{
+    var book = new Book("Sample Book Title", "Sample Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.RemoveBook(book);
+    Assert.True(result);
+}
+
+[Fact]
+public void AddBook_ReturnsFalse_WhenBookIsNull()
+{
+    Book book = null;
+    var result = _libraryManager.AddBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void GetBooks_ReturnsNonEmptyCollection_WhenBooksExist()
+{
+    _libraryManager.AddBook(new Book("Book1", "Author1"));
+    _libraryManager.AddBook(new Book("Book2", "Author2"));
+    var books = _libraryManager.GetBooks();
+    Assert.NotEmpty(books);
+}
     }
 }
