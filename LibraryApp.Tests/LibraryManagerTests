@@ -1,0 +1,19 @@
+using Xunit;
+using LibraryApp;
+
+namespace LibraryApp.Tests
+{
+    public class LibraryManagerTests
+    {
+        private readonly LibraryManager _libraryManager = new LibraryManager();
+
+        [Fact]
+        public void AddBook_ReturnsTrue_WhenNewBookAdded()
+        {
+            var book = new Book("Sample Book Title", "Sample Author");
+            var result = _libraryManager.AddBook(book);
+            Assert.True(result);
+        }
+        // Add at least 19 more tests following this pattern
+    }
+}
