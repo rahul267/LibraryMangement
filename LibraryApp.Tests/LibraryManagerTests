@@ -44,5 +44,40 @@ public void FindBook_ReturnsNull_WhenBookDoesNotExist()
     Assert.Null(result);
 }
 // Add additional tests following this pattern
+
+[Fact]
+public void AddBook_ReturnsFalse_WhenDuplicateBookAdded()
+{
+    var book = new Book("Sample Book Title", "Sample Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.AddBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void RemoveBook_ReturnsFalse_WhenBookDoesNotExist()
+{
+    var book = new Book("Nonexistent Book Title", "Nonexistent Author");
+    var result = _libraryManager.RemoveBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void FindBook_ReturnsBooks_WhenPartialTitleMatch()
+{
+    var book1 = new Book("Harry Potter and the Sorcerer's Stone", "J.K. Rowling");
+    var book2 = new Book("Harry Potter and the Chamber of Secrets", "J.K. Rowling");
+    _libraryManager.AddBook(book1);
+    _libraryManager.AddBook(book2);
+    var foundBooks = _libraryManager.FindBooksByPartialTitle("Harry Potter");
+    Assert.Contains(book1, foundBooks);
+    Assert.Contains(book2, foundBooks);
+}
+
+[Fact]
+public void AddBook_ThrowsArgumentNullException_WhenNullBookAdded()
+{
+    Assert.Throws<ArgumentNullException>(() => _libraryManager.AddBook(null));
+}
     }
 }
