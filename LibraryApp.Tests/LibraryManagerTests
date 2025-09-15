@@ -43,6 +43,23 @@ public void FindBook_ReturnsNull_WhenBookDoesNotExist()
     var result = _libraryManager.FindBook("Nonexistent Book Title");
     Assert.Null(result);
 }
+
+[Fact]
+public void AddBook_ReturnsFalse_WhenAddingDuplicateBook()
+{
+    var book = new Book("Duplicate Book", "Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.AddBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void RemoveBook_ReturnsFalse_WhenRemovingNonexistentBook()
+{
+    var book = new Book("Nonexistent Book", "Author");
+    var result = _libraryManager.RemoveBook(book);
+    Assert.False(result);
+}
 // Add additional tests following this pattern
     }
 }
