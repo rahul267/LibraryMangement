@@ -43,6 +43,87 @@ public void FindBook_ReturnsNull_WhenBookDoesNotExist()
     var result = _libraryManager.FindBook("Nonexistent Book Title");
     Assert.Null(result);
 }
+
+[Fact]
+public void AddBook_ReturnsFalse_WhenAddingDuplicateBook()
+{
+    var book = new Book("Duplicate Book", "Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.AddBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void RemoveBook_ReturnsFalse_WhenRemovingNonexistentBook()
+{
+    var book = new Book("Nonexistent Book", "Author");
+    var result = _libraryManager.RemoveBook(book);
+    Assert.False(result);
+}
 // Add additional tests following this pattern
+
+[Fact]
+public void AddBook_ReturnsFalse_WhenAddingDuplicateBook()
+{
+    var book = new Book("Duplicate Book Title", "Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.AddBook(book);
+    Assert.False(result);
+}
+
+[Fact]
+public void RemoveBook_ReturnsFalse_WhenBookDoesNotExist()
+{
+    var result = _libraryManager.RemoveBook("Nonexistent Book Title");
+    Assert.False(result);
+}
+
+[Fact]
+public void CheckBookAvailability_ReturnsFalse_WhenBookDoesNotExist()
+{
+    var result = _libraryManager.CheckBookAvailability("Nonexistent Book Title");
+    Assert.False(result);
+}
+
+[Fact]
+public void CheckBookAvailability_ReturnsTrue_WhenBookExists()
+{
+    var book = new Book("Available Book Title", "Author");
+    _libraryManager.AddBook(book);
+    var result = _libraryManager.CheckBookAvailability("Available Book Title");
+    Assert.True(result);
+}
+
+[Fact]
+public void GetAllBooks_ReturnsEmptyList_WhenNoBooksAdded()
+{
+    var books = _libraryManager.GetAllBooks();
+    Assert.Empty(books);
+}
+
+[Fact]
+public void GetAllBooks_ReturnsListOfBooks_WhenBooksAdded()
+{
+    var book1 = new Book("Book 1", "Author 1");
+    var book2 = new Book("Book 2", "Author 2");
+    _libraryManager.AddBook(book1);
+    _libraryManager.AddBook(book2);
+    var books = _libraryManager.GetAllBooks();
+    Assert.Contains(book1, books);
+    Assert.Contains(book2, books);
+}
+
+[Fact]
+public void AddBook_ThrowsException_WhenBookTitleContainsMaliciousInput()
+{
+    var maliciousBook = new Book("DROP TABLE Books;", "Hacker");
+    Assert.Throws<ArgumentException>(() => _libraryManager.AddBook(maliciousBook));
+}
+
+[Fact]
+public void RemoveBook_ThrowsException_WhenBookTitleContainsMaliciousInput()
+{
+    Assert.Throws<ArgumentException>(() => _libraryManager.RemoveBook("DROP TABLE Books;"));
+}
     }
 }
